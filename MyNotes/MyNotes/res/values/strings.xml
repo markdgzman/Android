@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">My Notes</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="addNote">Add</string>
+    <string name="deleteNote">Delete First Joke</string>
+    <string name="title_activity_view">ViewActivity</string>
+    <string name="addNotesView">Add Notes</string>
+    <string name="viewNotes">View Notes</string>
+    <string name="content">Content</string>
+    <string name="addJoke">Placeholder</string>
+    <string name="deleteJoke">Placeholder</string>
+
+</resources>
