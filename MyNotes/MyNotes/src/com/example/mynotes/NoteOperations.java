@@ -1,6 +1,7 @@
 package com.example.mynotes;
 
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,4 +86,5 @@ public class NoteOperations {
 		return note;
 	}
 }
+
 

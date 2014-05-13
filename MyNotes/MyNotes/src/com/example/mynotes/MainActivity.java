@@ -1,69 +1,100 @@
 package com.example.mynotes;
 
-import java.util.List;
-
-import android.app.ListActivity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.view.ViewGroup;
 import android.widget.EditText;
 
-public class MainActivity extends ListActivity {
+public class MainActivity extends ActionBarActivity {
 
 	private NoteOperations noteOperations;
+	
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.fragment_main);
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, new PlaceholderFragment())
+                    .commit();
+        }
+    }
 
-		noteOperations = new NoteOperations(this);
-		noteOperations.open();
+    
+    public void addNoteFunction(View view){
+    	
+    	//Open new note operations
+    	noteOperations = new NoteOperations(this);
+    	noteOperations.open();
+    	
+    	EditText text = (EditText) findViewById(R.id.addNote);
+    	Note note = noteOperations.addNote(text.getText().toString());
+    	
+    	
+    	new AlertDialog.Builder(this)
+        .setTitle("My Notes")
+        .setMessage("Note Added!")
+        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) { 
+                // continue with delete
+            }
+         })
+        .setIcon(android.R.drawable.ic_dialog_alert)
+         .show();
+    	
+    	noteOperations.close();
+    }
+    
+    public void switchView(View view){
+    	Intent intent = new Intent(this, ViewActivity.class);
+    	startActivity(intent);
+    }
 
-		List values = noteOperations.getAllNotes();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
 
-		// Use the SimpleCursorAdapter to show the
-		// elements in a ListView
-		ArrayAdapter adapter = new ArrayAdapter(this,
-				android.R.layout.simple_list_item_1, values);
-		
-		setListAdapter(adapter);
-	}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
-	public void addNote(View view) {
+    /**
+     * A placeholder fragment containing a simple view.
+     */
+    public static class PlaceholderFragment extends Fragment {
 
-		ArrayAdapter adapter = (ArrayAdapter) getListAdapter();
+        public PlaceholderFragment() {
+        }
 
-		EditText text = (EditText) findViewById(R.id.editText1);
-		Note note = noteOperations.addNote(text.getText().toString());
-
-		adapter.add(note);
-
-	}
-
-	public void deleteFirstNote(View view) {
-
-		ArrayAdapter adapter = (ArrayAdapter) getListAdapter();
-		Note note = null;
-
-		if (getListAdapter().getCount() > 0) {
-			note = (Note) getListAdapter().getItem(0);
-			noteOperations.deleteNote(note);
-			adapter.remove(note);
-		}
-
-	}
-
-	@Override
-	protected void onResume() {
-		noteOperations.open();
-		super.onResume();
-	}
-
-	@Override
-	protected void onPause() {
-		noteOperations.close();
-		super.onPause();
-	}
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            return rootView;
+        }
+    }
+    
+    
 
 }
