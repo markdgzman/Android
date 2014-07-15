@@ -1,0 +1,38 @@
+package com.example.notesie;
+
+public class Note {
+	
+	private int id;
+	
+	private String body;
+	private String note;
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getBody(){
+		return this.body;
+	}
+	
+	public void setBody(String body){
+		this.body = body;
+	}
+	
+	public String getNote() {
+		return this.note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	@Override
+	public String toString() {
+		return note;
+	}
+}
