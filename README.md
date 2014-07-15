@@ -7,6 +7,7 @@ Everything Android related will go on here.
 
 
 7/15/14
+
 Notesie
 
 Uploaded newest prototype of a note taking app. This app uses a database
